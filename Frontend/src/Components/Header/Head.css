@@ -1,0 +1,76 @@
+*{
+    margin:0;
+    padding:0;
+}
+.navbar{
+display: flex;
+flex-direction: row;
+justify-content: space-between;
+width: 100%;
+height:60px;
+background-color:rgb(232, 61, 61);
+}
+.logo {
+width:15%;
+height:80%;
+
+}
+.logo>img{
+    padding-left: 10px;
+    padding-top: 10px;
+    
+   width: 60px;
+   height: 40px;
+}
+.options {
+    display: flex;
+    flex-direction: row;
+    width:80%;
+    height:80%;
+    justify-content: flex-end;
+    align-items: center;
+    
+}
+.options>li{
+    list-style-type: none;
+    margin:10px;
+}
+
+.options .navoption{
+    
+    text-decoration: none;
+    color: white;
+
+}
+.options .navoption:hover{
+    color:#3b3335;
+}
+.Driverl{
+    background-color:#008CBA;; 
+    border: none;
+    color: white;
+    padding: 5px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius:10px 0px 0px 10px;
+    margin-right: -20px;
+}
+.Userl{
+    background-color:#04AA6D;;
+    border: none;
+    color: white;
+    padding: 5px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    border-radius: 0px 10px 10px 0px;
+    font-size: 16px;
+}
+.Userl:hover{
+    padding:7px 12px;
+}
+.Driverl:hover{
+    padding:7px 12px;
+}

@@ -1,0 +1,86 @@
+.acceptbooking{
+    display: flex;
+    flex-direction: column;
+    width:100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.accept {
+    margin-top:10px;
+
+    background-color: rgb(232, 61, 61); 
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+  }
+.requestContainer{
+    width:45%;
+    border:3px solid black;
+    height:600px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    overflow-y: scroll;  
+}
+.requestContainer::-webkit-scrollbar {
+  width: 5px;
+  height: 8px;
+  background-color: #aaa; /* or add it to the track */
+}
+.bookingpage{
+  display: flex;
+
+}
+.request{
+  display: flex;
+  border: 2px solid black;
+  width:90%;
+  align-items: center;
+  margin-top: 3%;
+  justify-content: center;
+}
+.service>p{
+  margin:7px;
+  font-size: large;
+  font-family: cursive;
+}
+.acceptreject{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content:space-around;
+  margin-top:7px;
+  height:90%;
+  
+  width: 30%;
+}
+#accept{
+  background-color: #04AA6D; 
+  border: none;
+  border-radius: 10px;
+  color: white;
+  padding: 10px 22px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+
+}
+#reject{
+  background-color: rgb(171, 41, 41); /* Green */
+  border: none;
+  border-radius: 10px;
+  color: white;
+  padding: 10px 22px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
