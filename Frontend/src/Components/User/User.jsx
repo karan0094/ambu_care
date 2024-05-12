@@ -38,6 +38,7 @@ function User() {
      <li><NavLink to="/user/Emergency" className="navoption" style={({isActive})=>{return{ fontWeight:isActive?"bold":"",};}
         }>Emergency Contacts </NavLink>
     </li>
+   
     </ul>
   </div>
   </div>

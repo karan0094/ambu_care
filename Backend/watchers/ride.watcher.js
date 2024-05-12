@@ -1,5 +1,6 @@
 import { ride } from "../models/Ride.model.js";
 import { availableDrivers } from "../controllers/ride.controller.js";
+import { rideAccepted } from "../controllers/ride.controller.js";
 export const ridewatcher=async(io)=>{
     const changeStream=ride.watch([],{fullDocument:'updateLookup'})
     changeStream.on('change',async(event)=>{
@@ -62,8 +63,16 @@ export const ridewatcher=async(io)=>{
         }
         }
         if(event.operationType === "update"){
+            if(fullDocument.status==="driverassigned"){
             io.to(String(fullDocument._id)).emit("Ride_Assigned",fullDocument)
         }
+            if(fullDocument.status==="cancelled"){
+                io.to(String(fullDocument._id)).emit("Cancelled","No ambulance Near You");
+            }
+            if(fullDocument.status==="completed"){
+                io.to(String(fullDocument._id)).emit("Completed","Pay Your Bill");
+            }
+    }
     })
 }
 

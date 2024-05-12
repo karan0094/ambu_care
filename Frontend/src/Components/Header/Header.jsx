@@ -53,14 +53,17 @@ function Header() {
        
          
        
-        {login &&
+        {login && 
         <>
+        {user &&
         <li>
           <button className="Driverl">
             {user.username}
           </button>
         </li>
+        }
         <li>
+        
           <button className="Userl"onClick={logoutUser}>
             Logout
           </button>
@@ -92,17 +95,21 @@ function Header() {
           </>
         }
         {
-          Login && <>
-          <li>
+          Login &&  <>
+          { driver &&
+            <li>
             <button className="Driverl">
              {driver.username}
             </button>
+            
           </li>
+          }
           <li>
             <button className='Userl' onClick={logoutDriver}>
               logout
             </button>
           </li>
+          
           
           </>
         }

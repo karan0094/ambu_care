@@ -11,8 +11,9 @@ function Dashboard() {
   // },[user])
 
   const {user}=useContext(userContext)
-  console.log(user)
+
   return (<div className='userBox'>
+   {user &&<>
     <div className='logged'>
       <FontAwesomeIcon icon={faUser} className='icon'/>
        <h2> User Details </h2>
@@ -25,7 +26,7 @@ function Dashboard() {
     <div className="name">
     <p>{user.username} </p>
     </div>
-   
+  
  </div>
 
  <div className='loggeduser email'>
@@ -48,7 +49,10 @@ function Dashboard() {
  </div>
  </div>
  </div>
+ </>
+}
  </div>
+
   )
 }
 

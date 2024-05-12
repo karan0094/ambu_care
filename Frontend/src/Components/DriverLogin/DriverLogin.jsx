@@ -13,7 +13,7 @@ export default function DriverLogin(props) {
     password:""
   })
  
-  const{setDvisible,setLogin}=useContext(driverContext);
+  const{setDvisible,setDriver,setLogin}=useContext(driverContext);
   const handleChange=(e,name)=>{
   
     let value=e.target.value
@@ -39,10 +39,11 @@ export default function DriverLogin(props) {
       const data=response.data.data;
       // save the data to local storage
       const driverData= data;
-      // console.log(driverData)
+     
       doDriverLogin(driverData,()=>{
         setLogin(true)
         setDvisible(false)
+        setDriver(response.data.data.driver)
         navigate("/driver/driverdashboard")
         
       });

@@ -10,7 +10,7 @@ function Login(props) {
     email:"",
     password:""
   })
-  const{setVisible,setlogin}=useContext(userContext)
+  const{setVisible,setUser,setlogin}=useContext(userContext)
   const navigate =useNavigate()
   const handleChange=(e,name)=>{
   
@@ -40,6 +40,7 @@ function Login(props) {
       doUserLogin(userData,()=>{
         setlogin(true)
         setVisible(false)
+        setUser(response.data.data.user)
         navigate("/user/userdashboard")
         
       });

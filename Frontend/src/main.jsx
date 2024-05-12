@@ -19,6 +19,7 @@ import Booking from './Components/Booking/Booking.jsx'
 import DriverDashboard from './Components/DriverDashboard/DriverDashboard.jsx'
 import Driver from './Components/Drivers/Driver.jsx'
 import Requests from './Components/Requests/Requests.jsx'
+import Searching from './Components/Driversearching/Searching.jsx'
 const router=createBrowserRouter(
   createRoutesFromElements(
     
@@ -35,8 +36,9 @@ const router=createBrowserRouter(
     {/* <Route element={<UserContextProvider/>}> */}
       <Route path="user/" element={<User/>}>
         <Route path="bookambulance/" element={<Book/>}>
-       
+        
           </Route>
+          <Route path="ambulancesearchandride" element={<Searching/>}/>
           <Route path="Mapd" element={<Mapd/>}/>
         <Route path="userdashboard" element={<Dashboard/>}/>
         </Route>
