@@ -40,14 +40,14 @@ export async function availableDrivers(userlocation,ambulanceType){
 }
 
 export async function rideAccepted(data){
-    const driverId=data._id;
-    const serviceId=data.serviceId;
+    const driver=data.driver;
+    const serviceId=data.serv+iceId;
     const status="driverassigned";
 
     try {
-        await ride.findByIdAndUpdate(driverId,{
+        await ride.findByIdAndUpdate(serviceId,{
            $set:{
-            driver:driverId,
+            driver:driver,
             status:status,
            }
         })

@@ -19,21 +19,41 @@ export const ridewatcher=async(io)=>{
                 console.log(avd);  
                 console.log("avd printed");
             let index=0;
-            
+          
             function sendRequest(){
+                let request="";
+              clearInterval(repetition);
               const driverid=avd[index]._id
               const ambulanceType=avd[index].ambulanceType
               io.emit(driverid+ambulanceType,{...fullDocument,...avd[index].dist})
               index++;
-              if(index===avd.length) clearInterval(repetition)
+             
               io.on("connection",(socket)=>{
                     socket.on("requestAccepted",(data)=>{
-                        rideAccepted(data);
                         clearInterval(repetition);
+                        rideAccepted(data);
+                       
+                    })
+                    socket.on("rejected",(data)=>{
+                        if(index!==avd.length){
+                            request="canmakerequest";
+                        }
+                        else{
+                            markCancelled(data.service_id);
+                        }
                     })
                  })
+                 if(request==="canmakerequest"){
+                    
+                    repetition=setInterval(sendRequest,0);
+                 }
+                 else{
+                    repetition=setInterval(sendRequest,30100);
+                 }
+                 if(index===avd.length || index==4) clearInterval(repetition)
+              
             }
-            const repetition=setInterval(sendRequest,30100)
+            const repetition=setInterval(sendRequest,0)
             console.log("bhai exit hogaya hai")
 
         }
@@ -46,3 +66,7 @@ export const ridewatcher=async(io)=>{
         }
     })
 }
+
+
+
+
