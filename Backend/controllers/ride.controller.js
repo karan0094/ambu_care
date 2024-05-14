@@ -41,7 +41,7 @@ export async function availableDrivers(userlocation,ambulanceType){
 
 export async function rideAccepted(data){
     const driver=data.driver;
-    const serviceId=data.serv+iceId;
+    const serviceId=data.serviceId;
     const status="driverassigned";
 
     try {

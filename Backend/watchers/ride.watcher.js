@@ -54,7 +54,7 @@ export const ridewatcher=async(io)=>{
                  if(index===avd.length || index==4) clearInterval(repetition)
               
             }
-            const repetition=setInterval(sendRequest,0)
+            var repetition=setInterval(sendRequest,0)
             console.log("bhai exit hogaya hai")
 
         }

@@ -9,6 +9,7 @@ import {
   Popup,
   TileLayer,
 } from 'react-leaflet'
+import RoutingMachine from './Routing';
 import { DraggableMarker } from './draggableMarker';
 import { useList } from "@uidotdev/usehooks";
 function Booking() {
@@ -16,11 +17,13 @@ function Booking() {
   const [latitude, setLatitude] = useState(51.505);
   const [longitude, setLongitude] = useState(-0.09);
   const navigate=useNavigate();
-  const [canAcceptRide,setCanAcceptRide]=useState(0);
+  const [canAcceptRide,setCanAcceptRide]=useState(0||parseInt(sessionStorage.getItem("canAcceptRide")));
   const [list, { set, push, removeAt, insertAt, updateAt, clear }] = useList([{_id:"123123jkjkl1j",ambulanceType:"Als",calculated:'78 km'}]);
   const [draggable,setDraggable]=useState(true);
   const [toggle,setToggle]=useState(false);
+  const [currentRide,setCurrentRide]=useState(0||parseInt(localStorage.getItem("currentRide")));
   useEffect(()=>{
+
     if(navigator.geolocation){
       navigator.geolocation.getCurrentPosition((position)=>{
        setLatitude(position.coords.latitude)
@@ -47,35 +50,56 @@ function Booking() {
 
   function togglef(){
      setToggle(true);
+     localStorage.setItem("canAcceptRide",1);
+     setCanAcceptRide(1);
   }
+  useEffect(()=>{
+    if(localStorage.getItem(currentRide)==="1"){
+        //Make an api call fetch the details of user 
+        //get the dlocation details of current Ride 
+    }
+  },[])
 
   useEffect(()=>{
   socket.on("connect",()=>{
       console.log("user connected",socket.id)
   })
-   console.log(JSON.parse(localStorage.getItem("driverData")).driver)
-   const event=JSON.parse(localStorage.getItem("driverData")).driver._id+JSON.parse(localStorage.getItem("driverData")).driver.ambulanceType
-   console.log(event)
-   if(localStorage.getItem("canAcceptRide")==1){ 
-   socket.on(event,(data)=>{
-      console.log(data);
-      add(data);
-    })
-  }
+   
+    
+  
     return ()=>{
       socket.disconnect();
     }
   },[socket])
+  useEffect(()=>{
+    console.log(JSON.parse(localStorage.getItem("driverData")).driver)
+  
+   
+    const event=JSON.parse(localStorage.getItem("driverData")).driver._id+JSON.parse(localStorage.getItem("driverData")).driver.ambulanceType
+    console.log(event)
+    if(localStorage.getItem("canAcceptRide")==="1"){ 
+      socket.on(event,(data)=>{
+         console.log(data);
+         push(data);
+       }
+     )
+     }
+  },[socket,canAcceptRide])
   const handleAccept=value=>()=>{
-    if(localStorage.getItem("canAcceptRide")==1){
+   
+    if(localStorage.getItem("canAcceptRide")!=="1"){
       alert("First complete your Ride or click on canAcceptRide")
     }
     else{
+      
+      localStorage.setItem("currentRide",1);
+    
+    localStorage.setItem("currentUserDetails",JSON.stringify(list[value.index]));
     const data={serviceId:value.id,driver:JSON.parse(localStorage.getItem("driverData")).driver._id};
     removeAt(value.index);
     socket.emit('requestAccepted',data);
-    setCanAcceptRide(0);
-    localStorage.setItem("canAcceptRide",canAcceptRide)
+   
+    localStorage.setItem("canAcceptRide",0)
   }}
   const handleDecline=value=>()=>{
     console.log(value);
@@ -88,10 +112,10 @@ function Booking() {
    return (     
    <div key={i} className="request">
           <div className="service">
-            <p><b>ServiceId: </b>{item._id}</p>
+            <p><b>ServiceId: </b>{item._id.substring(0,6)+"..."}</p>
           
          
-          <p><b>Distance: </b>{item.calculated}</p>
+          <p><b>Distance: </b>{Math.floor(item.calculated)>1000? (Math.floor(item.calculated/1000))+"Km":Math.floor(item.calculated)+"meter"}</p>
           <p><b>AmbulanceType: </b> {item.ambulanceType}</p>
           </div>
           <div className='acceptreject'>
@@ -111,12 +135,14 @@ function Booking() {
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       /> 
-      {toggle && latitude && longitude &&  <DraggableMarker value={draggable} center={[latitude,longitude]}/>}
+      {toggle && latitude && longitude &&localStorage.getItem("currentRide")!=="1" &&  <DraggableMarker value={draggable} center={[latitude,longitude]}/>}
+      {localStorage.getItem("currentRide")==="1" && <RoutingMachine user={[JSON.parse(localStorage.getItem("currentUserDetails")).userLocation.coordinates[0],JSON.parse(localStorage.getItem("currentUserDetails")).userLocation.coordinates[1]]} 
+      driver={{lat:latitude,long:longitude}}/>}
     </MapContainer>
     
     </div>
         
-          <button className='accept' onClick={()=>{dragger(); togglef(); ()=>{setCanAcceptRide(1) }; ()=>{ localStorage.setItem("canAcceptRide",canAcceptRide)}}} >
+          <button className='accept' onClick={()=>{dragger(); togglef();  }} >
           Click To Accept Bookings
         </button>
       

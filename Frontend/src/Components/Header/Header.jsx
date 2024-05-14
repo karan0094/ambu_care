@@ -4,14 +4,15 @@ import DriverLogin from '../DriverLogin/DriverLogin'
 import UserLogin from '../Login/UserLogin'
 import './Head.css'
 import driverContext from '../../../context/driverContext'
-import { userLogout,driverLogout} from '../../authorization/udLogin'
+import { userLogout,driverLogout, getCurrentUser, getCurrentDriver} from '../../authorization/udLogin'
 import userContext from '../../../context/userContext'
 
 function Header() {
-  const{Visible,setVisible,user,login,setlogin}=useContext(userContext)
-  const{dvisible,setDvisible,driver,setLogin,Login}=useContext(driverContext);
+  const{Visible,setVisible,login,setlogin}=useContext(userContext)
+  const{dvisible,setDvisible,setLogin,Login}=useContext(driverContext);
  
-  
+  const user =getCurrentUser();
+  const driver=getCurrentDriver();
   const navigate=useNavigate()
  
   const logoutDriver=function(){
