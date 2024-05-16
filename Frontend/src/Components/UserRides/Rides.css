@@ -1,0 +1,74 @@
+.rideMaps{
+    display:flex;
+    flex-direction: row;
+    border-radius:1 px solid black;
+    height: 100%;
+    width:100%;
+}
+.userRides{
+    display: flex;
+    flex-direction: column;
+    /* border:1px solid green; */
+    height:100%;
+    width:300px;
+   
+    align-items: center;
+    
+}
+
+.currentRide{
+    display:flex;
+    flex-direction: column;
+    border:1px solid red;
+    height: 50%;
+    width: 100%;
+    align-items: center;
+    overflow-y: scroll;
+}
+.currentRdeRequest{
+    display: flex;
+    flex-direction: column;
+    margin: 2px;
+    border: 2px solid black;
+    width:95%;
+    height:60px;
+}
+.serviceId{
+ margin: 1px;
+}
+.ambuTypeDistance{
+   
+    margin: 3px;
+}
+.ambulanceTyper{
+    
+    margin: 1px;
+}
+.ambulanceTyper>p{
+    font-size: 15px;
+}
+.serviceId>p{
+    font-size:14px;
+}
+.pastRide{
+display: flex;
+flex-direction: column;
+border: 1px solid blue;
+    height:50%;
+    width:100%;
+    align-items: center;
+}
+.mapper{
+  margin-left:10px;
+
+
+}
+.pastRide{
+    display:flex;
+    flex-direction: column;
+    border:1px solid red;
+    height: 50%;
+    width: 100%;
+    align-items: center;
+    overflow-y: scroll;
+}

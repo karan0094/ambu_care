@@ -3,11 +3,11 @@ import { ApiError } from "../utils/ApiError.js"
 import { ApiResponse } from "../utils/ApiResponse.js"
 import { ride } from "../models/Ride.model.js"
 import { driver } from "../models/Driver.model.js"
-export const fetchRide=asyncHandler(async(req,res)=>{
-    const{user}=req.body;
-    const rides=await ride.find(user)
-    return res.status(204,rides,"Rides booked by user")
-})
+// export const fetchRide=asyncHandler(async(req,res)=>{
+//     const{user}=req.body;
+//     const rides=await ride.find(user)
+//     return res.status(204,rides,"Rides booked by user")
+// })
 
 
 
@@ -28,6 +28,7 @@ export async function availableDrivers(userlocation,ambulanceType){
 
        const answer=await driver.aggregate([{$geoNear:{near:userlocation,
        distanceField:"dist.calculated",
+       maxDistance:5000,
        query:{ambulanceType:ambulanceType},
        spherical:true}}
     ,{
@@ -38,7 +39,34 @@ export async function availableDrivers(userlocation,ambulanceType){
     }])
        return answer;
 }
-
+ export const driverRideDetails=asyncHandler(async(req,res)=>{
+    const id=req.driver._id || req.user._id;
+    
+   
+        const rideData=await ride.find({driver:id});
+        return res.status(200).json(new ApiResponse(200,rideData,rideData?"Data":"nodata"))
+    
+ })
+ export const userRideDetails=asyncHandler(async(req,res)=>{
+    const id= req.user._id;
+   
+        const rideData=await ride.find({user:id});
+        return res.status(200).json(new ApiResponse(200,rideData,rideData?"Data":"noData"));
+   
+    
+ })
+export async function markCancelled(data){
+    const serviceId=data;
+    try {
+        await ride.findByIdAndUpdate(serviceId,{
+            $set:{
+                status:"cancelled"
+            }
+        })
+    } catch (error) {
+        console.log(error);
+    }
+}
 export async function rideAccepted(data){
     const driver=data.driver;
     const serviceId=data.serviceId;

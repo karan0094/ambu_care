@@ -20,6 +20,7 @@ import DriverDashboard from './Components/DriverDashboard/DriverDashboard.jsx'
 import Driver from './Components/Drivers/Driver.jsx'
 import Requests from './Components/Requests/Requests.jsx'
 import Searching from './Components/Driversearching/Searching.jsx'
+import Rides from './Components/UserRides/Rides.jsx'
 const router=createBrowserRouter(
   createRoutesFromElements(
     
@@ -41,6 +42,7 @@ const router=createBrowserRouter(
           <Route path="ambulancesearchandride" element={<Searching/>}/>
           <Route path="Mapd" element={<Mapd/>}/>
         <Route path="userdashboard" element={<Dashboard/>}/>
+        <Route path="rides" element={<Rides/>}/>
         </Route>
         <Route path="driver/" element={<Driver/>}>
         <Route path="bookings/" element={<Booking/>}>

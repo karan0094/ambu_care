@@ -14,8 +14,8 @@ import { DraggableMarker } from './draggableMarker';
 import { useList } from "@uidotdev/usehooks";
 function Booking() {
   const socket= useMemo(()=>io("http://localhost:5000"),[])
-  const [latitude, setLatitude] = useState(51.505);
-  const [longitude, setLongitude] = useState(-0.09);
+  const [latitude, setLatitude] = useState(undefined);
+  const [longitude, setLongitude] = useState(undefined);
   const navigate=useNavigate();
   const [canAcceptRide,setCanAcceptRide]=useState(0||parseInt(sessionStorage.getItem("canAcceptRide")));
   const [list, { set, push, removeAt, insertAt, updateAt, clear }] = useList([{_id:"123123jkjkl1j",ambulanceType:"Als",calculated:'78 km'}]);
@@ -37,16 +37,18 @@ function Booking() {
   function dragger(){
     setDraggable(false);
   }
-  const gpsUpdate=(latitude,longitude)=>{
-    const id=JSON.parse(localStorage.getItem("driverData")).driver._id;
-    socket.emit("locationChanged",{latitude,longitude,id})
-  }
- useEffect(
-  
- ()=>{
-  gpsUpdate(latitude,longitude)
- }
-,[latitude,longitude]);
+  // const gpsUpdate=(latitude,longitude)=>{
+  //   const id=JSON.parse(localStorage.getItem("driverData")).driver._id;
+  //   socket.emit("locationChanged",{latitude,longitude,id})
+  // }
+//  useEffect(
+ 
+//  ()=>{
+//   if(latitude && longitude){
+//   gpsUpdate(latitude,longitude)
+//  }
+// }
+// ,[latitude,longitude]);
 
   function togglef(){
      setToggle(true);
@@ -54,10 +56,33 @@ function Booking() {
      setCanAcceptRide(1);
   }
   useEffect(()=>{
-    if(localStorage.getItem(currentRide)==="1"){
+
+      const currentOngoingRide=axios.get("http://localhost:5000/api/v1/ride/dridedetails",
+      {
+        headers:{
+          "Authorization":`Bearer ${JSON.parse(localStorage.getItem("driverData")).accessToken}`
+        
+      }}
+      ).then(function(response){
+          const rideArray=response.data.data;
+          if(!localStorage.getItem("currentUserDetails")){
+
+            for(var i=0;i<rideArray.length;i++){
+                       if(i.status==="driverAssigned" ){
+                        localStorage.setItem("currentUserDetails",JSON.stringify(i));
+                        localStorage.setItem("currentRide",1);
+                        localStorage.setItem("canAcceptRide",0);
+                      }
+          }
+        }
+      })
+      .catch((error)=>{
+        console.log(error)
+      })
+    
         //Make an api call fetch the details of user 
         //get the dlocation details of current Ride 
-    }
+    
   },[])
 
   useEffect(()=>{
@@ -102,8 +127,8 @@ function Booking() {
     localStorage.setItem("canAcceptRide",0)
   }}
   const handleDecline=value=>()=>{
-    console.log(value);
-    removeAt(value);
+    socket.emit("rejected",value.id);
+    removeAt(value.index);
   }
   return (
     <div className='bookingpage'>
@@ -113,14 +138,12 @@ function Booking() {
    <div key={i} className="request">
           <div className="service">
             <p><b>ServiceId: </b>{item._id.substring(0,6)+"..."}</p>
-          
-         
           <p><b>Distance: </b>{Math.floor(item.calculated)>1000? (Math.floor(item.calculated/1000))+"Km":Math.floor(item.calculated)+"meter"}</p>
           <p><b>AmbulanceType: </b> {item.ambulanceType}</p>
           </div>
           <div className='acceptreject'>
             <button id='accept' onClick={handleAccept({id:item._id,index:i})}>Accept</button>
-            <button id='reject' onClick={handleDecline(i)}> Reject</button>
+            <button id='reject' onClick={handleDecline({index:i,id:item._id})}> Reject</button>
 
           </div>
        
@@ -136,8 +159,10 @@ function Booking() {
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       /> 
       {toggle && latitude && longitude &&localStorage.getItem("currentRide")!=="1" &&  <DraggableMarker value={draggable} center={[latitude,longitude]}/>}
-      {localStorage.getItem("currentRide")==="1" && <RoutingMachine user={[JSON.parse(localStorage.getItem("currentUserDetails")).userLocation.coordinates[0],JSON.parse(localStorage.getItem("currentUserDetails")).userLocation.coordinates[1]]} 
-      driver={{lat:latitude,long:longitude}}/>}
+      {latitude && longitude && localStorage.getItem("currentRide")==="1" && <RoutingMachine user={[JSON.parse(localStorage.getItem("currentUserDetails")).userLocation.coordinates[0],JSON.parse(localStorage.getItem("currentUserDetails")).userLocation.coordinates[1]]} 
+    
+        driver={{lat:latitude,long:longitude}}/>}
+     
     </MapContainer>
     
     </div>

@@ -29,7 +29,7 @@ export const verifyJwtDriver=asyncHandler(async(req,res,next)=>{
    try {
       
       const token=req.cookies?.accessToken || req.header("Authorization")?.replace("Bearer ","")
-      // console.log("hello this is ",token);
+     
       if(!token) throw new ApiError(401,"token is not there");
      
       const decodedToken= jwt.verify(token,process.env.ACCESS_TOKEN_SECRET)

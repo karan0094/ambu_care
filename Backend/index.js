@@ -23,14 +23,14 @@ const io=new Server(server,{ cors:{origin:"http://localhost:5173",method:["GET",
 
 socketHandler(io);
 import { ridewatcher } from "./watchers/ride.watcher.js";
-// import { driverWatcher } from "./watchers/driver.watcher.js";
+import { driverWatcher } from "./watchers/driver.watcher.js";
 connectDb()
 .then(()=>{
     server.listen(process.env.PORT || 5000 ,async()=>{
        try {
        
         await ridewatcher(io);
-        // await driverWatcher(io); 
+        await driverWatcher(io); 
         console.log("standing on server")
        } catch (error) {
         

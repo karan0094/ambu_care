@@ -66,6 +66,7 @@ const loginDriver=asyncHandler(async(req,res,next)=>{
 const logOut=asyncHandler(async(req,res)=>{
   await driver.findByIdAndUpdate(req.driver._id,{
     $unset:{
+        location:1,
         refreshToken:1
     }
   },{
@@ -84,9 +85,11 @@ return res.status(200).clearCookie("accessToken",options).clearCookie("refreshTo
 
 })
 async function updateLocation(data){
-  const latitude=data.latitude;
-  const longitude=data.longitude;
   console.log(data)
+  const position=data.position;
+  const latitude=position.lat;
+  const longitude=position.lng;
+ 
   await driver.findByIdAndUpdate(data.id,{
     $set:{
         location:{type:"Point",coordinates:[latitude,longitude]}

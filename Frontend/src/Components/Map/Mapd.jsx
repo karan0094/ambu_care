@@ -113,7 +113,7 @@ export default function Mapd() {
       // console.log(JSON.parse(localStorage.getItem("userData")).user._id)
       const data={
         user:JSON.parse(localStorage.getItem("userData")).user._id,
-        userLocation:{type:"Point",coordinates:[28.535517,77.391029]},
+        userLocation:{type:"Point",coordinates:[28.603943,77.426901]},
         status:"requested",
         ambulanceType:sessionStorage.getItem("ambulance")
 
@@ -124,8 +124,9 @@ export default function Mapd() {
         
       }}).then(
         (res)=>{
+          
            console.log(res.data.data._id)
-          //  navigate("/user/ambulancesearchandride");
+           navigate("/user/ambulancesearchandride",{state:{serviceId:res.data.data._id}});
         }
       )
       .catch((error)=>{

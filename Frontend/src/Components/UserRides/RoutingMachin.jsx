@@ -1,8 +1,6 @@
 import L from "leaflet";
 import { createControlComponent } from "@react-leaflet/core";
 import "leaflet-routing-machine";
-import { useEffect, useMemo, useState } from "react";
-import { io } from "socket.io-client";
 
 const startIcon = L.icon({
     iconUrl: "../../../assests/th.jpeg",
@@ -19,12 +17,7 @@ const startIcon = L.icon({
     popupAnchor: [1, -34],
     shadowSize: [41, 41]
   });
-const Routing = (props) => {
-  const socket= useMemo(()=>io("http://localhost:5000"),[])
-
-
-
-  
+const RoutingMachin = (props) => {
     console.log(props);
     console.log(props.user[0],props.user[1]);
     console.log(props.driver);
@@ -66,17 +59,10 @@ const Routing = (props) => {
     console.log(`Total distance: ${summary.totalDistance} meters`);
     console.log(`Total time: ${summary.totalTime} seconds`);
   });
-  instance.on('waypointschanged',(e)=>{
-    const newWayPoints=e.waypoints;
-    const position=newWayPoints[1].latLng
-    const id=JSON.parse(localStorage.getItem("driverData")).driver._id;
-  socket.emit("locationChanged",{position,id});
-
-    
-  })
+  
   return instance;
 };
 
-const RoutingMachine = createControlComponent(Routing);
+const RoutingMachine = createControlComponent(RoutingMachin);
 
 export default RoutingMachine;
