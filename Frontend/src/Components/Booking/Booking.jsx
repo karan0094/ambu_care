@@ -21,7 +21,8 @@ function Booking() {
   const [list, { set, push, removeAt, insertAt, updateAt, clear }] = useList([{_id:"123123jkjkl1j",ambulanceType:"Als",calculated:'78 km'}]);
   const [draggable,setDraggable]=useState(true);
   const [toggle,setToggle]=useState(false);
-  const [currentRide,setCurrentRide]=useState(0||parseInt(localStorage.getItem("currentRide")));
+  // const [distance,setDistance]=useState(190);
+  const[complete,setComplete]=useState(localStorage.getItem('complete')?Number(localStorage.getItem('complete')):0);
   useEffect(()=>{
 
     if(navigator.geolocation){
@@ -34,21 +35,23 @@ function Booking() {
       })
     }
   },[])
+
+ 
   function dragger(){
     setDraggable(false);
   }
-  // const gpsUpdate=(latitude,longitude)=>{
-  //   const id=JSON.parse(localStorage.getItem("driverData")).driver._id;
-  //   socket.emit("locationChanged",{latitude,longitude,id})
-  // }
-//  useEffect(
- 
-//  ()=>{
-//   if(latitude && longitude){
-//   gpsUpdate(latitude,longitude)
-//  }
-// }
-// ,[latitude,longitude]);
+  const gpsUpdate=(latitude,longitude)=>{
+    const id=JSON.parse(localStorage.getItem("driverData")).driver._id;
+    socket.emit("locationChanged",{position:{lat:latitude,lng:longitude},id})
+  }
+ useEffect(
+  
+ ()=>{
+  if(latitude && longitude){
+  gpsUpdate(latitude,longitude)
+ }
+}
+,[latitude,longitude]);
 
   function togglef(){
      setToggle(true);
@@ -65,7 +68,7 @@ function Booking() {
       }}
       ).then(function(response){
           const rideArray=response.data.data;
-          if(!localStorage.getItem("currentUserDetails")){
+          if(!localStorage.getItem("currentUserDetails") && rideArray.length>0){
 
             for(var i=0;i<rideArray.length;i++){
                        if(i.status==="driverAssigned" ){
@@ -110,8 +113,21 @@ function Booking() {
      )
      }
   },[socket,canAcceptRide])
+  // const distancebtw=(currentDistance)=>{
+  //   setDistance(currentDistance);
+  // }
+  const handleComplete=(user)=>{
+    // if(distance>50){
+    //   alert('patient is not near you');
+    // }
+    setComplete(0);
+    localStorage.setItem("currentRide",0);
+    localStorage.setItem("complete",0);
+    localStorage.removeItem("currentUserDetails")
+    socket.emit("rideCompleted",user);
+  }
   const handleAccept=value=>()=>{
-   
+    
     if(localStorage.getItem("canAcceptRide")!=="1"){
       alert("First complete your Ride or click on canAcceptRide")
     }
@@ -123,7 +139,8 @@ function Booking() {
     const data={serviceId:value.id,driver:JSON.parse(localStorage.getItem("driverData")).driver._id};
     removeAt(value.index);
     socket.emit('requestAccepted',data);
-   
+    setComplete(1);
+    localStorage.setItem("complete",1);
     localStorage.setItem("canAcceptRide",0)
   }}
   const handleDecline=value=>()=>{
@@ -159,19 +176,24 @@ function Booking() {
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       /> 
       {toggle && latitude && longitude &&localStorage.getItem("currentRide")!=="1" &&  <DraggableMarker value={draggable} center={[latitude,longitude]}/>}
-      {latitude && longitude && localStorage.getItem("currentRide")==="1" && <RoutingMachine user={[JSON.parse(localStorage.getItem("currentUserDetails")).userLocation.coordinates[0],JSON.parse(localStorage.getItem("currentUserDetails")).userLocation.coordinates[1]]} 
+      {complete && latitude && longitude && localStorage.getItem("currentRide")==="1"  && <RoutingMachine user={[JSON.parse(localStorage.getItem("currentUserDetails")).userLocation.coordinates[0],JSON.parse(localStorage.getItem("currentUserDetails")).userLocation.coordinates[1]]} 
     
-        driver={{lat:latitude,long:longitude}}/>}
+        driver={{lat:latitude,long:longitude}} />}
      
     </MapContainer>
     
     </div>
         
-          <button className='accept' onClick={()=>{dragger(); togglef();  }} >
-          Click To Accept Bookings
-        </button>
-      
+    {!complete? <button className='accept' onClick={()=>{dragger(); togglef();  }} >
+             <p>Click To Accept Bookings</p>
+        </button>:  <></>
+      }
+          { complete ? <button className='completed' onClick={()=>{handleComplete(JSON.parse(localStorage.getItem("currentUserDetails")))}}>
+           <p>Complete Ride</p>
+         </button >:<></>
+          }
         </div>
+       
        
       
     </div>

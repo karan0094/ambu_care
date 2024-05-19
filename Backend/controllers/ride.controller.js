@@ -67,6 +67,19 @@ export async function markCancelled(data){
         console.log(error);
     }
 }
+export async function rideCompleted(data){
+    const serviceId=data._id
+    const status="completed";
+    try {
+        await ride.findByIdAndUpdate(serviceId,{
+           $set:{
+            status:status,
+           }
+        })
+    } catch (error) {
+      throw error;  
+    }
+}
 export async function rideAccepted(data){
     const driver=data.driver;
     const serviceId=data.serviceId;

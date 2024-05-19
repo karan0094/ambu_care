@@ -63,6 +63,7 @@ const Routing = (props) => {
     const routes = e.routes;
     // Assuming we only want the first route
     const summary = routes[0].summary;
+   ;
     console.log(`Total distance: ${summary.totalDistance} meters`);
     console.log(`Total time: ${summary.totalTime} seconds`);
   });

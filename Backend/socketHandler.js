@@ -16,6 +16,9 @@ const socketHandler=(io)=>{
             console.log("yaha pahuch gaya")
             rideAccepted(data);
         })
+        socket.on("rideCompleted",(data)=>{
+            
+        })
         socket.on('disconnect',()=>{
             console.log("a user has been disconnected")
         })
