@@ -1,6 +1,6 @@
 // import { Server } from "socket.io";
 import { updateLocation } from "./controllers/driver.controller.js";
-import { rideAccepted } from "./controllers/ride.controller.js";
+import { rideAccepted, rideCompleted } from "./controllers/ride.controller.js";
 const socketHandler=(io)=>{
     io.on('connection',(socket)=>{
         console.log(socket.id);
@@ -17,7 +17,7 @@ const socketHandler=(io)=>{
             rideAccepted(data);
         })
         socket.on("rideCompleted",(data)=>{
-            
+            rideCompleted(data);
         })
         socket.on('disconnect',()=>{
             console.log("a user has been disconnected")

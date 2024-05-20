@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import driverContext from "./driverContext";
 import { getCurrentDriver, isDriverLoggedIn} from "../src/authorization/udLogin";
 const driverContextProvider=({children})=>{
-    const [driver,setDriver]=useState(null)
+    const [driver,setDriver]=useState(getCurrentDriver)
    
     const[dvisible,setDvisible]=useState(false);
     const[Login,setLogin]=useState(isDriverLoggedIn);

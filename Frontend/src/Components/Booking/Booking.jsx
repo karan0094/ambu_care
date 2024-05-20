@@ -116,15 +116,16 @@ function Booking() {
   // const distancebtw=(currentDistance)=>{
   //   setDistance(currentDistance);
   // }
-  const handleComplete=(user)=>{
+  const handleComplete=(service)=>{
     // if(distance>50){
     //   alert('patient is not near you');
     // }
+    console.log(service);
     setComplete(0);
     localStorage.setItem("currentRide",0);
     localStorage.setItem("complete",0);
     localStorage.removeItem("currentUserDetails")
-    socket.emit("rideCompleted",user);
+    socket.emit("rideCompleted",service._id);
   }
   const handleAccept=value=>()=>{
     

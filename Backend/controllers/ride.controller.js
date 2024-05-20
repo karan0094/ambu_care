@@ -68,7 +68,7 @@ export async function markCancelled(data){
     }
 }
 export async function rideCompleted(data){
-    const serviceId=data._id
+    const serviceId=data
     const status="completed";
     try {
         await ride.findByIdAndUpdate(serviceId,{

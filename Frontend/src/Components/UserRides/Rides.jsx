@@ -16,12 +16,15 @@ import {
 function Rides(props){
     const socket= useMemo(()=>io("http://localhost:5000"),[])
     const location=useLocation();
-    const {data}=location.state;
-    const[driverId,setDriverId]=useState(data.driver);
+    // if(location.state)
+    //     {
+    //         const {data}=location.state;
+    //     }    
+    const[driverId,setDriverId]=useState(location.state?location.state.driver:undefined);
     const [latitude, setLatitude] = useState(undefined);
     const [longitude, setLongitude] = useState(undefined);
     const navigate=useNavigate();
-    console.log(data);
+    
 
     const handleClick=(driverId)=>{
         setDriverId(driverId);
@@ -30,6 +33,10 @@ function Rides(props){
     socket.on("connect",()=>{
         console.log("user connected",socket.id)
        
+    })
+    socket.on('Completed',data=>{
+        alert(data);
+        navigate("/user/bookambulance");
     })
     return ()=>{
         socket.disconnect();

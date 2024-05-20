@@ -1,0 +1,45 @@
+.userBox{
+    display: flex;
+    flex-direction: column;
+   
+}
+.logged{
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    margin-bottom: 10px;
+    padding:10px;
+    background-image:linear-gradient(to left, rgba(255,0,0,0), rgb(208, 39, 39));;
+}
+.logged>h2{
+    margin-left:10px;
+    padding:5px;
+}
+
+.logged>h2{
+    color: black;
+}
+.userDetails{
+    display: flex;
+    flex-direction:row;
+}
+
+.loggeduser{
+    display: flex;
+    flex-direction: column;
+    margin:10px;
+    padding:7px;
+}
+.loggeduser>p{
+    font-family: cursive;
+}
+.loggedbox{
+    display: flex;
+    flex-direction: column;
+}
+.name{
+    margin:3px;
+}
+.icon{
+    font-size: 35px;
+}
