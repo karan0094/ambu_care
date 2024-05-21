@@ -16,11 +16,9 @@ import {
 function Rides(props){
     const socket= useMemo(()=>io("http://localhost:5000"),[])
     const location=useLocation();
-    // if(location.state)
-    //     {
-    //         const {data}=location.state;
-    //     }    
-    const[driverId,setDriverId]=useState(location.state?location.state.driver:undefined);
+    const{data}=location.state
+    
+    const[driverId,setDriverId]=useState(location.state.data?location.state.data.driver:undefined);
     const [latitude, setLatitude] = useState(undefined);
     const [longitude, setLongitude] = useState(undefined);
     const navigate=useNavigate();
@@ -34,6 +32,7 @@ function Rides(props){
         console.log("user connected",socket.id)
        
     })
+    socket.emit("join_room",String(driverId));
     socket.on('Completed',data=>{
         alert(data);
         navigate("/user/bookambulance");
@@ -51,7 +50,7 @@ function Rides(props){
             alert(data);
             navigate("/user/bookambulance")
         })
-        socket.emit("join_room",String(driverId));
+      
         socket.on("Location_changed",(driver)=>{
             console.log(driver.location);
            setLatitude(driver.location.coordinates[0]);

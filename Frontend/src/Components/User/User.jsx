@@ -33,10 +33,10 @@ function User() {
     <li> <NavLink to="/user/bookambulance" className="navoption" style={({isActive})=>{return{ fontWeight:isActive?"bold":"",};}
         }>Book Ambulance </NavLink></li>
         <li>
-     <NavLink to="/user/NearHospitals" className="navoption" style={({isActive})=>{return{ fontWeight:isActive?"bold":"",};}
-        }>Nearest Hospitals </NavLink></li>
-     <li><NavLink to="/user/Emergency" className="navoption" style={({isActive})=>{return{ fontWeight:isActive?"bold":"",};}
-        }>Emergency Contacts </NavLink>
+     <NavLink to="/user/carregister" className="navoption" style={({isActive})=>{return{ fontWeight:isActive?"bold":"",};}
+        }>Register Car </NavLink></li>
+     <li><NavLink to="/user/reportaccidents" className="navoption" style={({isActive})=>{return{ fontWeight:isActive?"bold":"",};}
+        }>Report Accidents</NavLink>
     </li>
     <li><NavLink to="/user/rides" className="navoption" style={({isActive})=>{return{ fontWeight:isActive?"bold":"",};}
         }>Ambulances Ride </NavLink>

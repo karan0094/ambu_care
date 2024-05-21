@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import userContext from "./userContext";
 import { getCurrentUser, isUserLoggedIn } from "../src/authorization/udLogin";
 const UserContextProvider=({children})=>{
-    const [user,setUser]=useState(null)
+    const [user,setUser]=useState(getCurrentUser)
     const[Visible,setVisible]=useState(false);
     const[position,setPosition]=useState([51.505,-0.09])
     const[login,setlogin]=useState(isUserLoggedIn);

@@ -59,7 +59,7 @@ function Booking() {
      setCanAcceptRide(1);
   }
   useEffect(()=>{
-
+      
       const currentOngoingRide=axios.get("http://localhost:5000/api/v1/ride/dridedetails",
       {
         headers:{

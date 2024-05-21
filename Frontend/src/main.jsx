@@ -21,6 +21,8 @@ import Driver from './Components/Drivers/Driver.jsx'
 import Requests from './Components/Requests/Requests.jsx'
 import Searching from './Components/Driversearching/Searching.jsx'
 import Rides from './Components/UserRides/Rides.jsx'
+import Report from './Components/ReportAccident/Report.jsx'
+import CarRegistration from './Components/Carregistration/CarRegistration.jsx'
 const router=createBrowserRouter(
   createRoutesFromElements(
     
@@ -39,6 +41,8 @@ const router=createBrowserRouter(
         <Route path="bookambulance/" element={<Book/>}>
         
           </Route>
+          <Route path="carregister" element={< CarRegistration/>}/>
+          <Route path="reportaccidents" element={<Report/>}/>
           <Route path="ambulancesearchandride" element={<Searching/>}/>
           <Route path="Mapd" element={<Mapd/>}/>
         <Route path="userdashboard" element={<Dashboard/>}/>

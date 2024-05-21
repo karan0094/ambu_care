@@ -1,47 +1,117 @@
-import React from "react";
+import React, { useContext } from "react";
 import { NavLink } from "react-router-dom";
 import "./home.css";
+import axios from "axios";
 //import "./homeScript.js";
 import { LocateFixed } from "lucide-react";
-
+import { useNavigate,useLocation } from "react-router-dom";
+import { useState } from "react";
+import userContext from "../../../context/userContext.js";
 function Home() {
+const navigate=useNavigate();
+  const [query, setQuery] = useState('');
+  const [suggestions, setSuggestions] = useState([]);
+  const [location, setLocation] = useState({ lat: null, lng: null });
+  const {user}=useContext(userContext);
+  const handleSearch=async()=>{
+    // navigate("/user/ambulancesearchandride",{state:{serviceId}});
+    if(user){
+    
+        // console.log(JSON.parse(localStorage.getItem("userData")).user._id)
+        const data={
+          user:JSON.parse(localStorage.getItem("userData")).user._id,
+          userLocation:{type:"Point",coordinates:[location.lat,location.lng]},
+          status:"requested",
+          ambulanceType:'als'
+  
+        }
+        await axios.post("http://localhost:5000/api/v1/ride/service",data,{
+          headers:{
+            "Authorization":`Bearer ${JSON.parse(localStorage.getItem("userData")).access}`
+          
+        }}).then(
+          (res)=>{
+            
+             console.log(res.data.data._id)
+             navigate("/user/ambulancesearchandride",{state:{serviceId:res.data.data._id}});
+          }
+        )
+        .catch((error)=>{
+          console.log(error);
+        })
+     }
+     else{
+        alert("User is not logged in");
+     }
+
+  }
+
+
+  const handleInputChange = async (e) => {
+      const value = e.target.value;
+      setQuery(value);
+
+      if (value.length > 2) {
+          try {
+              const response = await axios.get(`https://nominatim.openstreetmap.org/search`, {
+                  params: {
+                      q: value,
+                      format: 'json',
+                      addressdetails: 1,
+                      limit: 5,
+                      countrycodes: 'in'
+                  }
+              });
+           
+              setSuggestions(response.data);
+          } catch (error) {
+              console.error('Error fetching location suggestions:', error);
+          }
+      } else {
+          setSuggestions([]);
+      }
+  };
+
+  const handleSuggestionClick = (suggestion) => {
+      setQuery(suggestion.display_name);
+      setSuggestions([]);
+      setLocation({
+        lat: suggestion.lat,
+        lng: suggestion.lon
+    });
+  };
+
   return (
     <section className="Home_Section">
       <div className="main_content">
         <div className="hero_sec"></div>
         <div className="form_entry">
-          <form
-            action=""
-            name="formUser"
-            id="formUserId"
-            className="formUserClass"
-            method="POST"
-          >
-            <div className="inputdiv">
-              <input
+       
+            <div className="search-container">
+            <input
                 type="text"
-                name=""
-                id="source"
-                className="inpText"
-                placeholder="Enter Source Location"
-              />
-              <LocateFixed className="srcClass"/>
-            </div>
-            <div className="inputdiv">
-              <input
-                type="text"
-                name=""
-                id="destination"
-                className="inpText"
-                placeholder="Enter Destination Location"
-              />
-            </div>
+                value={query}
+                onChange={handleInputChange}
+                placeholder="Enter a location"
+                
+           />
+           {/* <LocateFixed/> */}
+            <ul className="suggestions">
+                {suggestions.map((suggestion) => (
+                    <li key={suggestion.place_id} onClick={() => handleSuggestionClick(suggestion)}>
+                        {suggestion.display_name}
+                    </li>
+                ))}
+            </ul>
+        </div>
+        <div className="searchbtn" onClick={handleSearch}>
             <input
               type="button"
               className="searchbtn"
               value="Search Ambulance"
             />
-          </form>
+            </div>
+        
         </div>
       </div>
     </section>
