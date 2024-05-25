@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { NavLink } from "react-router-dom";
 import "./home.css";
 import axios from "axios";
+import iconLoader from "../../../assests/Icon.jsx";
 //import "./homeScript.js";
 import { LocateFixed } from "lucide-react";
 import { useNavigate,useLocation } from "react-router-dom";
@@ -13,11 +14,49 @@ const navigate=useNavigate();
   const [suggestions, setSuggestions] = useState([]);
   const [location, setLocation] = useState({ lat: null, lng: null });
   const {user}=useContext(userContext);
+  const [placeName, setPlaceName] = useState('');
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const locateMe = ()=>{
+    setLoading(true);
+    if ('geolocation' in navigator) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          console.log(latitude+"  "+longitude);
+          setLocation({ lat:latitude, lng:longitude });
+          getPlaceName(latitude, longitude);
+        },
+        (error) => {
+          setError(error.message);
+          setLoading(false);
+        }
+      );
+    } else {
+      setError('Geolocation is not supported by this browser.');
+      setLoading(false);
+    }
+  };
+  const getPlaceName = async (latitude, longitude) => {
+    try {
+      const response = await axios.get(
+        `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`
+      );
+      const place = response.data.display_name;
+      setQuery(place);
+      setPlaceName(place);
+    } catch (error) {
+      setError('Failed to fetch place name');
+    }
+    setLoading(false);
+  };
+
   const handleSearch=async()=>{
     // navigate("/user/ambulancesearchandride",{state:{serviceId}});
     if(user){
     
         // console.log(JSON.parse(localStorage.getItem("userData")).user._id)
+        console.log(location.lat+"  "+location.lng);
         const data={
           user:JSON.parse(localStorage.getItem("userData")).user._id,
           userLocation:{type:"Point",coordinates:[location.lat,location.lng]},
@@ -88,6 +127,8 @@ const navigate=useNavigate();
         <div className="form_entry">
        
             <div className="search-container">
+           <div className="containerText">
+           <div className="loc" onClick={locateMe}> <LocateFixed color="#050505" /></div>
             <input
                 type="text"
                 value={query}
@@ -95,7 +136,7 @@ const navigate=useNavigate();
                 placeholder="Enter a location"
                 
            />
-           {/* <LocateFixed/> */}
+           </div>
             <ul className="suggestions">
                 {suggestions.map((suggestion) => (
                     <li key={suggestion.place_id} onClick={() => handleSuggestionClick(suggestion)}>

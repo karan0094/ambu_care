@@ -25,7 +25,7 @@ function Book() {
             <FontAwesomeIcon icon={faTruckMedical} className="icon"/>
                 <h2>Basic Life Support(BLS)</h2>
                 <p>BLS ambulance are equipped with basic medical equipment </p>
-                <button className="bookAmbulance" onClick={()=>clickedBook("Bls")}>Book Now</button>
+                <button className="bookAmbulance" onClick={()=>clickedBook("Basic life Support")}>Book Now</button>
             </div>
             <div className="services">
             <FontAwesomeIcon icon={faTruckMedical} className="icon"/>
