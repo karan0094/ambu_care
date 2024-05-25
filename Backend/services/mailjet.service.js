@@ -1,5 +1,5 @@
-const Mailjet = require('node-mailjet');
-
+// const Mailjet require('node-mailjet');
+import Mailjet from 'node-mailjet'
 const mailjet = Mailjet.apiConnect(
   process.env.MAILJET_API_KEY,
   process.env.MAILJET_API_SECRET
