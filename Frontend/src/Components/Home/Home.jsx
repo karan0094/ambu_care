@@ -87,7 +87,7 @@ const navigate=useNavigate();
         <div className="hero_sec"></div>
         <div className="form_entry">
        
-            <div className="search-container">
+            <div className="search-containe">
             <input
                 type="text"
                 value={query}

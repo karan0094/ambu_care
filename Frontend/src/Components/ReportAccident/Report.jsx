@@ -6,7 +6,7 @@ function Report() {
     const [location, setLocation] = useState('');
     const [carNumber, setCarNumber] = useState('');
     const [carNumberError, setCarNumberError] = useState('');
-  
+    console.log(JSON.parse(localStorage.getItem("userData")).access)
     const handleSubmit =async (e) => {
       e.preventDefault();
   
@@ -19,14 +19,15 @@ function Report() {
       // Handle form submission (e.g., send data to backend)
       // console.log('Location:', location);
       // console.log('Car Number:', carNumber);
+      
       const response=await axios.post("http://localhost:5000/api/v1/users/reportaccidents",{
         location,
         carNumber,
         userEmail:JSON.parse(localStorage.getItem("userData")).user.email
-      },{
+      }, {headers:{
         "Authorization":`Bearer ${JSON.parse(localStorage.getItem("userData")).access}`
       
-      }).then(res=>{
+      }}).then(res=>{
         console.log(res.data);
       })
       .catch(error=>{

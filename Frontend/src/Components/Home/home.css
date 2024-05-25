@@ -67,14 +67,14 @@
 }
 
 /* src/LocationSearchBar.css */
-.search-container {
+.search-containe {
     position: relative;
     width: 300px;
     margin: 10px ;
-    z-index: -10;
+    /* z-index: -10; */
 }
 
-.search-container input {
+.search-containe input {
     width: 100%;
     padding: 10px;
     box-sizing: border-box;
