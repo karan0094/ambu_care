@@ -23,6 +23,10 @@
         display: inline-block;
         font-size: 16px;
  }
+ .bookambu:hover{
+    cursor: pointer;
+ }
+
  #toggle{
     background-color: #04AA6D; /* Green */
     border: none;
@@ -33,4 +37,7 @@
     display: inline-block;
     font-size: 16px;
 
+ }
+ #toggle:hover{
+    cursor: pointer;
  }
