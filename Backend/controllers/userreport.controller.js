@@ -3,20 +3,21 @@ import { ApiError } from "../utils/ApiError.js"
 import { ApiResponse } from "../utils/ApiResponse.js"
 import { usercar } from "../models/Usercar.model.js"
 import { accidentreport } from "../models/Report.model.js"
-import { mailService } from "../services/mailjet.service.js"
+import sendMail from '../services/gmail.service.js'
 
 
 export const reportaccidents=asyncHandler(async(req,res)=>{
    const{userEmail,location,carNumber}=req.body;
    const userOfCar=await usercar.findOne({carNumber});
    if(!userOfCar) return new ApiError(409,"car Not found");
+   console.log(userOfCar);
    const alreadyReported=await accidentreport.findOne({carNumber});
    if(alreadyReported) return "already Reported";
    try {
     
-    const sendMail=await mailService(userOfCar.guardianEmail,carNumber,location,userEmail);
-    if(sendMail){
-        reportaccidents.create({
+    const sendmail=await sendMail(userOfCar.guardianEmail,carNumber,location);
+    if(sendmail){
+        accidentreport.create({
             location,
             carNumber,
             user:userOfCar.user,
@@ -30,7 +31,6 @@ export const reportaccidents=asyncHandler(async(req,res)=>{
     )
  
    } catch (error) {
-    return res.status(500).json(
-        new ApiResponse(500,{},error))
+    console.log(error)
    }
 })

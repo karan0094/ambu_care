@@ -126,9 +126,12 @@ const navigate=useNavigate();
         <div className="hero_sec"></div>
         <div className="form_entry">
        
+
+
             <div className="search-container">
            <div className="containerText">
            <div className="loc" onClick={locateMe}> <LocateFixed color="#050505" /></div>
+
             <input
                 type="text"
                 value={query}
