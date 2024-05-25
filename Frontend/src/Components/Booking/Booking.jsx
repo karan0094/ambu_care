@@ -13,12 +13,14 @@ import RoutingMachine from './Routing';
 import { DraggableMarker } from './draggableMarker';
 import { useList } from "@uidotdev/usehooks";
 function Booking() {
+  
   const socket= useMemo(()=>io("http://localhost:5000"),[])
+
   const [latitude, setLatitude] = useState(undefined);
   const [longitude, setLongitude] = useState(undefined);
   const navigate=useNavigate();
   const [canAcceptRide,setCanAcceptRide]=useState(0||parseInt(sessionStorage.getItem("canAcceptRide")));
-  const [list, { set, push, removeAt, insertAt, updateAt, clear }] = useList([{_id:"123123jkjkl1j",ambulanceType:"Als",calculated:'78 km'}]);
+  const [list, { set, push, removeAt, insertAt, updateAt, clear }] = useList([]);
   const [draggable,setDraggable]=useState(true);
   const [toggle,setToggle]=useState(false);
   // const [distance,setDistance]=useState(190);
@@ -112,7 +114,7 @@ function Booking() {
        }
      )
      }
-  },[socket,canAcceptRide])
+  },[socket])
   // const distancebtw=(currentDistance)=>{
   //   setDistance(currentDistance);
   // }

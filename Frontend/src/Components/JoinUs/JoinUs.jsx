@@ -69,7 +69,7 @@ export default function JoinUs() {
         <img src="../assests/Join.png" alt="" />
         </div>
       </div>
-      <form className="form-container"  ref={section} onSubmit={handleSubmit}>
+      <form className="form-contain"  ref={section} onSubmit={handleSubmit}>
       <div className="form-group">
         <label>User Name:</label>
         <input type="text" name="username" value={formData.username} onChange={handleChange} />

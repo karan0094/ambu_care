@@ -19,7 +19,7 @@ function LocationMarker() {
     console.log(position)
 },[])
     map.setView(position,13)
-    return( <><Marker position={position}>
+    return( <><Marker draggable={true} position={position}>
     <Popup>You are here</Popup>
     </Marker></>
   )}

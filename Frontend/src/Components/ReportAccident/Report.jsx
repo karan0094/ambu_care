@@ -1,12 +1,13 @@
 import React from 'react'
 import { useState } from 'react';
 import './Report.css'
+import axios from 'axios'
 function Report() {
     const [location, setLocation] = useState('');
     const [carNumber, setCarNumber] = useState('');
     const [carNumberError, setCarNumberError] = useState('');
   
-    const handleSubmit = (e) => {
+    const handleSubmit =async (e) => {
       e.preventDefault();
   
       // Car number validation (simple example)
@@ -16,8 +17,21 @@ function Report() {
       }
   
       // Handle form submission (e.g., send data to backend)
-      console.log('Location:', location);
-      console.log('Car Number:', carNumber);
+      // console.log('Location:', location);
+      // console.log('Car Number:', carNumber);
+      const response=await axios.post("http://localhost:5000/api/v1/users/reportaccidents",{
+        location,
+        carNumber,
+        userEmail:JSON.parse(localStorage.getItem("userData")).user.email
+      },{
+        "Authorization":`Bearer ${JSON.parse(localStorage.getItem("userData")).access}`
+      
+      }).then(res=>{
+        console.log(res.data);
+      })
+      .catch(error=>{
+        console.log(error);
+      })
     };
   
     return (

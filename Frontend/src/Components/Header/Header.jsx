@@ -14,7 +14,12 @@ function Header() {
   const user =getCurrentUser();
   const driver=getCurrentDriver();
   const navigate=useNavigate()
- 
+  const handleRedirectUserDashboard=()=>{
+    navigate("/user/userdashboard")
+  }
+  const handleRedirectDriverDashboard=()=>{
+    navigate("/driver/driverdashboard")
+  }
   const logoutDriver=function(){
     driverLogout(()=>{
       setLogin(false)
@@ -58,7 +63,7 @@ function Header() {
         <>
         {user &&
         <li>
-          <button className="Driverl">
+          <button  onClick={handleRedirectUserDashboard}className="Driverl">
             {user.username}
           </button>
         </li>
@@ -99,7 +104,7 @@ function Header() {
           Login &&  <>
           { driver &&
             <li>
-            <button className="Driverl">
+             <button onClick={handleRedirectDriverDashboard} className="Driverl">
              {driver.username}
             </button>
             

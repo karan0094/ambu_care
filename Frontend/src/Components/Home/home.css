@@ -71,6 +71,7 @@
     position: relative;
     width: 300px;
     margin: 10px ;
+    z-index: -10;
 }
 
 .search-container input {
