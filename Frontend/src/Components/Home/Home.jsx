@@ -3,7 +3,6 @@ import { NavLink } from "react-router-dom";
 import "./home.css";
 import axios from "axios";
 import iconLoader from "../../../assests/Icon.jsx";
-//import "./homeScript.js";
 import { LocateFixed } from "lucide-react";
 import { useNavigate,useLocation } from "react-router-dom";
 import { useState } from "react";
@@ -17,6 +16,7 @@ const navigate=useNavigate();
   const [placeName, setPlaceName] = useState('');
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
   const locateMe = ()=>{
     setLoading(true);
     if ('geolocation' in navigator) {
@@ -39,6 +39,7 @@ const navigate=useNavigate();
   };
   const getPlaceName = async (latitude, longitude) => {
     try {
+      alert("Fetching Your Location")
       const response = await axios.get(
         `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`
       );
@@ -120,27 +121,28 @@ const navigate=useNavigate();
     });
   };
 
+  const showSuggestion = ()=>{
+    setIsVisible(true);
+  }
+
   return (
     <section className="Home_Section">
       <div className="main_content">
         <div className="hero_sec"></div>
         <div className="form_entry">
-       
-
-
             <div className="search-container">
            <div className="containerText">
            <div className="loc" onClick={locateMe}> <LocateFixed color="#050505" /></div>
-
             <input
                 type="text"
                 value={query}
                 onChange={handleInputChange}
+                onFocus={showSuggestion}
                 placeholder="Enter a location"
                 
            />
            </div>
-            <ul className="suggestions">
+           <ul className="suggestions" style={{ display: isVisible ? 'block' : 'none' }}>
                 {suggestions.map((suggestion) => (
                     <li key={suggestion.place_id} onClick={() => handleSuggestionClick(suggestion)}>
                         {suggestion.display_name}
@@ -155,7 +157,6 @@ const navigate=useNavigate();
               value="Search Ambulance"
             />
             </div>
-        
         </div>
       </div>
     </section>

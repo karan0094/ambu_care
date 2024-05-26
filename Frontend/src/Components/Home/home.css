@@ -11,71 +11,27 @@
     flex-direction: column;
 }
 .hero_sec{
-    height: 80%;
-
+    height: 70%;
+    margin:5px 8Px 5px 8px;
     background: url("https://source.unsplash.com/4hWvAJP8ofM") center no-repeat;
     background-size: cover;
 }
 .form_entry{
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: top;
+    gap: 20px;
     border-radius: 20px;
     margin:5px 8Px 5px 8px;
-    height: 20%;
-    
+    height: 30%;
+    padding: 5px;
     box-shadow: 2px 2px 30px 1px black,-2px -2px 30px 1px black;;
 }
-.formUserClass{
-    width: 100%;
+
+.search-container{
+    width: 400px;
     height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 50px;
-}
-.inputdiv{
-    height: 60px;
-    width: 300px;
-    border: 2px solid black;
-    border-radius: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap:5px;
-}
-.inpText{
-    display: block;
-    height: 20px;
-    width: 70%;
-    text-align: center;
-    border: 0;
-    border-radius: 10px;
-}
-.searchbtn{
-    display: block;
-    height: 40px;
-    width: 150px;
-    border-radius: 20px;
-    background-color: rgb(155, 93, 213);
-}
-.searchbtn:hover{
-    cursor: pointer;
-}
-.srcClass:hover{
-    cursor: pointer;
-}
-
-/* src/LocationSearchBar.css */
-.search-containe {
-    position: relative;
-    width: 300px;
-    margin: 10px ;
-
-}
-
-.search-containe input {
-
+    overflow: auto;
 }
 .containerText{
     display: flex;
@@ -95,26 +51,34 @@
 .loc:hover{
 cursor: pointer;
 }
-.suggestions {
-    position: absolute;
-    top: 40px;
-    left: 0;
-    right: 0;
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-    border: 1px solid #ccc;
-    border-top: none;
-    background: #fff;
-    z-index: 1000;
-    border-radius: 0 0 4px 4px;
-}
 
+.suggestions{
+    box-sizing: border-box;
+    position: relative;
+    width:100%;
+    list-style: none;
+    border: 1px solid rgba(0,0,0, 0.8);
+    background-color: white;
+}
+.suggestions li{
+    padding: 10px;
+}
+.suggestions li:hover {
+    background-color: #f0f0f0;
+} 
 .suggestions li {
     padding: 10px;
     cursor: pointer;
 }
 
-.suggestions li:hover {
-    background-color: #f0f0f0;
+.searchbtn{
+    display: block;
+    height: 40px;
+    width: 150px;
+    border-radius: 20px;
+    background-color: rgb(155, 93, 213);
 }
+.searchbtn:hover{
+    cursor: pointer;
+}
+
