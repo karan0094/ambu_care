@@ -16,7 +16,7 @@ import {
 function Rides(props){
     const socket= useMemo(()=>io("http://localhost:5000"),[])
     const location=useLocation();
-    const{data}=location.state9
+    const{data}=location.state
     console.log(data);
     const[driverId,setDriverId]=useState(location.state.data?location.state.data.driver:undefined);
     const [latitude, setLatitude] = useState(undefined);
