@@ -13,7 +13,7 @@
 .hero_sec{
     height: 80%;
 
-    background: url("https://source.unsplash.com/4hWvAJP8ofM") center no-repeat;
+    background: url("../../../assests/AmbuHome.png") center no-repeat;
     background-size: cover;
 }
 .form_entry{
@@ -74,9 +74,9 @@
 
 }
 
-.search-containe input {
+/* .search-containe input {
 
-}
+} */
 .containerText{
     display: flex;
     justify-content: center;
