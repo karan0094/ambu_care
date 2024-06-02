@@ -97,3 +97,16 @@ export async function rideAccepted(data){
     }
 
 }
+export async function  markCancelledByUSer(driverId){
+    
+    try {
+        await ride.findOneAndUpdate({driver:driverId,status:"driverassigned"},{
+            $set:{
+                status:"cancelledByUser"
+            }
+        }
+        )
+    } catch (error) {
+        console.log(error);
+    }
+}

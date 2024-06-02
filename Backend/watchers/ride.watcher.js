@@ -65,6 +65,9 @@ export const ridewatcher=async(io)=>{
         }
 
         if(event.operationType === "update"){
+            if(fullDocument.status==="cancelledByUser"){
+                io.to(String(fullDocument.user))     .emit("cancelledByUser","cancelled by user")
+            }
             if(fullDocument.status==="driverassigned"){
             io.to(String(fullDocument._id)).emit("Ride_Assigned",fullDocument)
         }

@@ -94,6 +94,14 @@ function Booking() {
   socket.on("connect",()=>{
       console.log("user connected",socket.id)
   })
+  socket.on("cancelledByUser",(data)=>{
+    localStorage.removeItem("currentUserDetails");
+    localStorage.removeItem("canAcceptRide");
+    localStorage.removeItem("complete")
+    localStorage.removeItem("currentRide")
+    alert(data);
+    navigate("/driver/bookings")
+  })
    
     
   
@@ -139,6 +147,7 @@ function Booking() {
       localStorage.setItem("currentRide",1);
     
     localStorage.setItem("currentUserDetails",JSON.stringify(list[value.index]));
+    socket.emit("join_room",JSON.parse(localStorage.getItem("currentUserDetails")).user);
     const data={serviceId:value.id,driver:JSON.parse(localStorage.getItem("driverData")).driver._id};
     removeAt(value.index);
     socket.emit('requestAccepted',data);

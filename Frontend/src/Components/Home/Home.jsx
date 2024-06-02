@@ -129,8 +129,8 @@ const navigate=useNavigate();
     <section className="Home_Section">
       <div className="main_content">
         <div className="hero_sec"></div>
-        <div className="form_entry">
-            <div className="search-container">
+        <div className="form_entr">
+            <div className="search-containe">
            <div className="containerText">
            <div className="loc" onClick={locateMe}> <LocateFixed color="#050505" /></div>
             <input
@@ -153,7 +153,7 @@ const navigate=useNavigate();
         <div className="searchbtn" onClick={handleSearch}>
             <input
               type="button"
-              className="searchbtn"
+              className="searchbtnn"
               value="Search Ambulance"
             />
             </div>

@@ -16,16 +16,22 @@ import {
 function Rides(props){
     const socket= useMemo(()=>io("http://localhost:5000"),[])
     const location=useLocation();
-    const{data}=location.state
-    console.log(data);
+    // const{data}=location.state
+    // console.log(data);
     const[driverId,setDriverId]=useState(location.state.data?location.state.data.driver:undefined);
     const [latitude, setLatitude] = useState(undefined);
     const [longitude, setLongitude] = useState(undefined);
+    const [selectedUserLocation, setSelectedUserLocation] = useState(null);
     const navigate=useNavigate();
     
-
-    const handleClick=(driverId)=>{
-        setDriverId(driverId);
+    const handleCancel=()=>
+        {
+            socket.emit("cancelRideByUser",driverId);
+            navigate("/user/bookambulance")
+        }
+    const handleClick=(ride)=>{
+        setDriverId(ride.driver);
+        setSelectedUserLocation(ride.userLocation.coordinates);
     }
    useEffect(()=>{
     socket.on("connect",()=>{
@@ -33,10 +39,10 @@ function Rides(props){
        
     })
     socket.emit("join_room",String(driverId));
-    socket.on('Completed',data=>{
-        alert(data);
-        navigate("/user/bookambulance");
-    })
+    // socket.on('Completed',data=>{
+    //     alert(data);
+    //     navigate("/user/bookambulance");
+    // })
     return ()=>{
         socket.disconnect();
       
@@ -56,8 +62,13 @@ function Rides(props){
            setLatitude(driver.location.coordinates[0]);
            setLongitude(driver.location.coordinates[1]);
         })
+        return () => {
+            socket.off("Completed");
+           
+            
+        };
       
-    },[socket,latitude,longitude])
+    },[socket,driverId,latitude,longitude])
     const [list1, { set:set1, push:push1, removeAt:removeAt1, insertAt:insertAt1, updateAt:updateAt1, clear:clear1 }]=useList();
     const [list2, { set:set2, push:push2, removeAt:removeAt2, insertAt:insertAt2, updateAt:updateAt2, clear:clear2 }]=useList();
     useEffect(()=>{
@@ -99,7 +110,7 @@ function Rides(props){
                 return(
              
                
-                <div key={i} className="currentRdeRequest" onClick={()=>{handleClick(item.driver)}}>
+                <div key={i} className="currentRdeRequest" onClick={()=>{handleClick(item)}}>
                         <div className='serviceId'>
                             <p><b>ServiceId:</b>{item._id}</p>
                         </div>
@@ -154,9 +165,16 @@ function Rides(props){
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       /> 
-     {latitude && longitude && <RoutingMachine    key={`${latitude}-${longitude}`}  user={[data.userLocation.coordinates[0],data.userLocation.coordinates[1]]} driver={{lat:latitude,long:longitude}}/>
+     {selectedUserLocation && latitude && longitude && <RoutingMachine    key={`${latitude}-${longitude}-${selectedUserLocation}`}  user={selectedUserLocation} driver={{lat:latitude,long:longitude}}/>
 }</MapContainer>
+{
+        latitude && longitude &&
+    <div className="cancel">
+        <button onClick={handleCancel}> cancel </button>
     </div>
+}
+    </div>
+   
         </div>
   )
 }
