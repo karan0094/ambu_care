@@ -12,10 +12,15 @@ export const reportaccidents=asyncHandler(async(req,res)=>{
    if(!userOfCar) return new ApiError(409,"car Not found");
    console.log(userOfCar);
    const alreadyReported=await accidentreport.findOne({carNumber});
-   if(alreadyReported) return "already Reported";
+   if(alreadyReported) {
+    console.log("already done")
+    return "already Reported";
+
+}
    try {
     
     const sendmail=await sendMail(userOfCar.guardianEmail,carNumber,location);
+    console.log(sendmail);
     if(sendmail){
         accidentreport.create({
             location,
