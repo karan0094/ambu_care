@@ -18,7 +18,7 @@ function Rides(props){
     const location=useLocation();
     // const{data}=location.state
     // console.log(data);
-    const[driverId,setDriverId]=useState(location.state.data?location.state.data.driver:undefined);
+    const[driverId,setDriverId]=useState(location.state?location.state.data.driver:undefined);
     const [latitude, setLatitude] = useState(undefined);
     const [longitude, setLongitude] = useState(undefined);
     const [selectedUserLocation, setSelectedUserLocation] = useState(null);

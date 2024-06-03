@@ -37,7 +37,7 @@ function Header() {
     <>
     <div className="navbar">
     <div className="logo">
-      <img src="assests\_d6e5f5c7-a831-4072-af67-91f232e506db.jpg" alt="load your logo"/>
+      {/* <img src="../../" alt="load your logo"/> */}
     </div> 
     <div className="options">
       

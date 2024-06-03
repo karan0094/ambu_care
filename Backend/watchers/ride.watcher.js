@@ -76,7 +76,7 @@ export const ridewatcher=async(io)=>{
                 io.to(String(fullDocument._id)).emit("Cancelled","No ambulance Near You");
             }
             if(fullDocument.status==="completed"){
-                io.to(String(fullDocument.driver)).emit("Completed","Pay Your Bill");
+                io.to(String(fullDocument.driver)).emit("Completed","Ambulance is Here");
             }
     }
     })

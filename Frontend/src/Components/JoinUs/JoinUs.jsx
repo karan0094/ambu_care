@@ -49,7 +49,7 @@ export default function JoinUs() {
     }
   }
   catch(error){
-    console.log(error);
+    alert(error);
   }
 };
   const section=useRef();

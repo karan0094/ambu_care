@@ -51,7 +51,7 @@ export default function DriverLogin(props) {
     
      }
      catch(e){
-      console.log(e);
+     alert("Either password or mailId is incorrect");
      }
 
   }

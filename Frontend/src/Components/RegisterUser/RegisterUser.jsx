@@ -69,7 +69,7 @@ export default function RegisterUser() {
    }
    }
    catch(e){
-    console.log(e);
+    alert(e);
    }
   };
   if(registered){
