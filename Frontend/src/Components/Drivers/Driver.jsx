@@ -37,9 +37,9 @@ function Driver() {
         }>DriverDetails</NavLink></li> 
     <li> <NavLink to="/driver/bookings" className="navoption" style={({isActive})=>{return{ fontWeight:isActive?"bold":"",};}
         }>Bookings </NavLink></li>
-        <li>
+        {/* <li>
      <NavLink to="/driver/NearHospitals" className="navoption" style={({isActive})=>{return{ fontWeight:isActive?"bold":"",};}
-        }>Booking History </NavLink></li>
+        }>Booking History </NavLink></li> */}
      
     </ul>
   </div>

@@ -23,6 +23,7 @@ import Searching from './Components/Driversearching/Searching.jsx'
 import Rides from './Components/UserRides/Rides.jsx'
 import Report from './Components/ReportAccident/Report.jsx'
 import CarRegistration from './Components/Carregistration/CarRegistration.jsx'
+import Nearest from './Components/nearest hospitals/nearest.jsx'
 const router=createBrowserRouter(
   createRoutesFromElements(
     
@@ -35,9 +36,11 @@ const router=createBrowserRouter(
     
       <Route path="RegisterUser/" element={<RegisterUser/>}/>
       <Route path="Services/" element={<Services/>}/>
+      
       {/* <userContextProvider> */}
     {/* <Route element={<UserContextProvider/>}> */}
       <Route path="user/" element={<User/>}>
+      <Route path="nearestHospitals/" element={<Nearest/>}/>
         <Route path="bookambulance/" element={<Book/>}>
         
           </Route>

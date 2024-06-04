@@ -41,6 +41,9 @@ function User() {
     <li><NavLink to="/user/rides" className="navoption" style={({isActive})=>{return{ fontWeight:isActive?"bold":"",};}
         }>Ambulances Ride </NavLink>
     </li>
+    <li><NavLink to="/user/nearestHospitals" className="navoption" style={({isActive})=>{return{ fontWeight:isActive?"bold":"",};}
+        }>Nearest Hospitals </NavLink>
+    </li>
    
     </ul>
   </div>
